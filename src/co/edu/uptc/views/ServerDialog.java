@@ -28,11 +28,9 @@ public class ServerDialog extends JDialog implements Runnable{
 
     @Override
     public void run() {
-        // TODO Auto-generated method stub
         try {
             ServerSocket server = new ServerSocket(55555);
             Socket socket = server.accept();
-
             DataInputStream dis = new DataInputStream(socket.getInputStream());
             String msg = dis.readUTF();
             textArea.append(msg);
