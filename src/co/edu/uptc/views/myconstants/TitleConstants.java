@@ -1,5 +1,7 @@
 package co.edu.uptc.views.myconstants;
 
+import java.awt.Font;
+
 public class TitleConstants {
 
     public static final String SERVER = "Server";
@@ -11,5 +13,5 @@ public class TitleConstants {
     public static final String IP = "Ip";
     public static final String PORT = "Port";
     public static final String COLOR = "Color";
-    
+    public static final Font LABELS_FONT = new Font(Font.MONOSPACED, Font.BOLD, 17);
 }

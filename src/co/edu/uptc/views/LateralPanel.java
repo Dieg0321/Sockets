@@ -1,10 +1,5 @@
 package co.edu.uptc.views;
 
-import co.edu.uptc.views.MainBoard;
-
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.Point;
 import java.awt.Color;
 import java.awt.Dimension;
 
@@ -12,12 +7,13 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import co.edu.uptc.views.myconstants.ButtonConstants;
 import co.edu.uptc.views.myconstants.TitleConstants;
@@ -43,20 +39,19 @@ public class LateralPanel extends JPanel{
     public void createTitles(){
         JLabel clientsLabel = new JLabel(TitleConstants.CLIENTS);
         clientsLabel.setBounds(23, 0, 100,30);
-        clientsLabel.setFont(new Font(Font.MONOSPACED, Font.BOLD, 17));
+        clientsLabel.setFont(TitleConstants.LABELS_FONT);
         //clientsLabel.setBorder(new LineBorder(Color.red, 2));   
         add(clientsLabel);
 
         JLabel chatsLabel = new JLabel(TitleConstants.CHATS);
         chatsLabel.setBounds(23, 235, 100,30);
-        chatsLabel.setFont(new Font(Font.MONOSPACED, Font.BOLD, 17));
+        chatsLabel.setFont(TitleConstants.LABELS_FONT);
         add(chatsLabel);
         
         JLabel sendMsgLabel = new JLabel(TitleConstants.SEND_MESSAGES);
         sendMsgLabel.setBounds(23, 475, 150,30);
-        sendMsgLabel.setFont(new Font(Font.MONOSPACED, Font.BOLD, 17));
+        sendMsgLabel.setFont(TitleConstants.LABELS_FONT);
         add(sendMsgLabel);
-
 
     }
 
@@ -71,6 +66,7 @@ public class LateralPanel extends JPanel{
 
     public void createChatsTextArea(){
         JTextArea msg = new JTextArea();
+        //msg.append();
         //msg.setEditable(false);
 
         JScrollPane chatsListScroll = new JScrollPane(msg);
@@ -86,9 +82,21 @@ public class LateralPanel extends JPanel{
 
     public void createSendButton(){
         JButton sendBtn = new JButton(ButtonConstants.SEND);
-        sendBtn.setFont(new Font(Font.MONOSPACED, Font.BOLD, 17));
+        sendBtn.setFont(TitleConstants.LABELS_FONT);
         sendBtn.setBounds(40, 615, 90, 30);
+        sendBtn.addActionListener(null);
         add(sendBtn);
+    }
+
+    public ActionListener createSendButtonListener(){
+        return new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MainBoard.getInstance().;                
+            }
+
+        };
     }
 
 }

@@ -3,29 +3,30 @@ package co.edu.uptc.views;
 import java.io.ObjectInputFilter.Status;
 import java.util.ArrayList;
 
-import java.awt.Dimension;
+import java.awt.Color;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
-import javax.swing.JMenuBar;
-import javax.swing.JPanel;
-import javax.swing.WindowConstants;
-
 import co.edu.uptc.contract.MainContract;
 import co.edu.uptc.contract.MainContract.Presenter;
 import co.edu.uptc.models.Ball;
 import co.edu.uptc.models.Chat;
 import co.edu.uptc.models.Client;
+import co.edu.uptc.presenter.MainPresenter;
 
 public class MainBoard extends JFrame implements MainContract.View {
     
     public static final int frameWidth = 600;
     public static final int frameHeight = 720;
 
-    private static MainBoard instance;
     private LateralPanel lateralPanel;
     private MainMenu menuBar;
+    private static String text;
+    private MainContract.Presenter presenter;
+    public static final MainBoard instance = new MainBoard();
+    private ServerDialog serverDialog;
 
-    public MainBoard(){
+    private MainBoard(){
+        this.presenter = MainPresenter.getInstance();
         initMainBoard();   
         createMenuBar();
         createLateralPanel();
@@ -36,7 +37,7 @@ public class MainBoard extends JFrame implements MainContract.View {
         setSize(frameWidth, frameHeight);
         setLocationRelativeTo(null);
         setVisible(true);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        // setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
     }
 
@@ -52,9 +53,6 @@ public class MainBoard extends JFrame implements MainContract.View {
     }
 
     public static MainBoard getInstance(){
-        if(instance == null){
-            instance = new MainBoard();
-        }
         return instance;
     }
 
@@ -64,15 +62,13 @@ public class MainBoard extends JFrame implements MainContract.View {
 
     @Override
     public void setPresenter(Presenter presenter) {
-        // TODO Auto-generated method stub
-        
+        this.presenter = presenter;
     }
 
 
     @Override
     public void startGame() {
-        // TODO Auto-generated method stub
-        
+      
     }
 
 
@@ -92,7 +88,7 @@ public class MainBoard extends JFrame implements MainContract.View {
 
     @Override
     public void receivedChat(Chat chat) {
-        // TODO Auto-generated method stub
+        MainPresenter.getInstance().receivedChat(chat);
         
     }
 
@@ -102,4 +98,16 @@ public class MainBoard extends JFrame implements MainContract.View {
         // TODO Auto-generated method stub
         
     }
+
+    public void startServer(int port){
+        MainPresenter.getInstance().startServer(port);
+    }
+
+    public void startClient(String ip, int port, Color color){
+        presenter.startClient(presenter.createClient(ip, port, color));
+    }
+
+    // public int getServerPort(){
+    //     return Integer.parseInt(serverDialog.getPortTextField());
+    // }
 }

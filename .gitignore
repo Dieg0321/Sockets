@@ -2,4 +2,6 @@
 *.MD
 out/
 bin/
+.vscode/
+libs/
 

@@ -1,22 +1,57 @@
 package co.edu.uptc.models;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.Socket;
+import java.awt.Color;
+import java.io.Serializable;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+public class Client implements Serializable{
 
-public class Client {
+    private String ip;
+    private int port;
+    private Color color;
+
+
+    
+    public Client(String ip, int port, Color color) {
+        this.color = color;
+        this.ip = ip;
+        this.port = port;
+    }
+
 
     public Client(){
-        try {
-            Socket socket = new Socket("192.168.1.84",55555);
-            DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
-            //dos.writeUTF();
-            dos.close();
-        } catch (IOException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
-    
+        
+    }
+
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    public String toJson(){
+        GsonBuilder gsonBuilder = new GsonBuilder().registerTypeAdapter(Color.class, new ColorSerializer());
+        Gson gson = gsonBuilder.create();
+        return gson.toJson(this);
     }
 
 }

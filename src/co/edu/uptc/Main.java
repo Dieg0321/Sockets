@@ -1,11 +1,15 @@
 package co.edu.uptc;
 
-import co.edu.uptc.views.ClientDialog;
-import co.edu.uptc.views.MainBoard;
+import co.edu.uptc.contract.MainContract;
+import co.edu.uptc.presenter.MainPresenter;
 
 public class Main{
     public static void main(String[] args) {
-        new MainBoard();
+        MainContract.Presenter presenter = MainPresenter.getInstance();
+        presenter.startGame();
+
+        //new MainBoard();
+        //new ClientDialog();
 
     }
 

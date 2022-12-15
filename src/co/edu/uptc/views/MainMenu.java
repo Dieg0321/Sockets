@@ -1,6 +1,5 @@
 package co.edu.uptc.views;
 
-import javax.sound.midi.SysexMessage;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -13,6 +12,7 @@ public class MainMenu extends JMenuBar{
 
     private JMenu configMenu;
     private JMenu helpMenu;
+    private ServerDialog serverDialog;
 
     public MainMenu(){
         //init();

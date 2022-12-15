@@ -2,59 +2,114 @@ package co.edu.uptc.views;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.DataOutput;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.Socket;
-
-import javax.swing.AbstractButton;
+import java.awt.Color;
 import javax.swing.JButton;
+import javax.swing.JColorChooser;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.WindowConstants;
+import co.edu.uptc.views.myconstants.ButtonConstants;
+import co.edu.uptc.views.myconstants.TitleConstants;
 
 public class ClientDialog extends JDialog {
 
-    private JTextField textField;
+    private JTextField ipTextField;
+    private JTextField portTextField;
+    private Color color;
 
     public ClientDialog(){
         initComponent();
+        createLabels();
         createTextField();    
+        createChooseColorButton();
         createSendButton();
+        createCancelButton();
     }    
 
-    private void createSendButton() {
-        JButton btn = new JButton();
-        btn.setBounds(90, 50, 80,30);   
-        btn.addActionListener(createActionListener());
+    public void initComponent(){
+        setSize(300,250);
+        setLocationRelativeTo(getParent());
+        setVisible(true);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+    }
+
+    public void createLabels(){
+        JLabel ipLabel = new JLabel(TitleConstants.IP);
+        ipLabel.setBounds(30,20,40,20);
+        ipLabel.setFont(TitleConstants.LABELS_FONT);
+        add(ipLabel);
+
+        JLabel portLabel = new JLabel(TitleConstants.PORT);
+        portLabel.setBounds(30,70,40,20);
+        portLabel.setFont(TitleConstants.LABELS_FONT);
+        add(portLabel);
+
+        JLabel colorLabel = new JLabel(TitleConstants.COLOR);
+        colorLabel.setBounds(30,115,50,20);
+        colorLabel.setFont(TitleConstants.LABELS_FONT);
+        add(colorLabel);
+    }
+    
+    public void createTextField(){
+        ipTextField = new JTextField();
+        ipTextField.setBounds(90,20, 100,25);
+        add(ipTextField);
+
+        portTextField = new JTextField();
+        portTextField.setBounds(90,65, 70,25);
+        add(portTextField);
+    }
+
+    public void createChooseColorButton(){
+        JButton colorButton = new JButton(ButtonConstants.SELECT);
+        colorButton.setBounds(90, 115, 80,20);
+        colorButton.addActionListener(createChooseColorListener());
+        add(colorButton);
+    }
+
+    public ActionListener createChooseColorListener(){
+        return new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                color = JColorChooser.showDialog(rootPane, "Color de usuario", Color.red);
+            }
+
+        };
+    }
+
+    public void createSendButton() {
+        JButton btn = new JButton(ButtonConstants.RUN);
+        btn.setBounds(30, 170, 80,30);   
+        btn.addActionListener(createSendListener());
         add(btn);
     }
 
-    public ActionListener createActionListener(){
+    public void createCancelButton() {
+        JButton btn = new JButton(ButtonConstants.CANCEL);
+        btn.setBounds(180, 170, 80,30);   
+        btn.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+
+        });
+        add(btn);
+    }
+
+    public ActionListener createSendListener(){
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    Socket socket = new Socket("192.168.1.84", 55555);
-                    DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
-                    dos.writeUTF(textField.getText());
-                    dos.close();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
+              MainBoard.getInstance().startClient(ipTextField.getText(), getPort(), color);                
             }
         };
     }
 
-    public void initComponent(){
-        setSize(300,300);
-        setVisible(true);
+    public int getPort(){
+        return Integer.parseInt(portTextField.getText());
     }
-
-    public void createTextField(){
-        textField = new JTextField();
-        textField.setBounds(100,10, 100,30);
-        add(textField);
-    }
-
-    
 }
