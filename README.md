@@ -1,6 +1,6 @@
-# Plantilla MVP
+# Sockets
 
-Código base para MVP
+Práctica de sockets
 
 ## Getting started
 
