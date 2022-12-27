@@ -5,61 +5,47 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import com.google.gson.Gson;
 
-public class ServerManager implements Runnable{
+import co.edu.uptc.entity.Chat;
+import co.edu.uptc.entity.Server;
 
-    private ServerSocket server;
-    private Socket socket;
+
+public class ServerManager {
+
+    private Server socketServer;
     private String message;
     private int port;
 
     public ServerManager(){
-    
+        
     }
 
     public String getMessage(){
         return message;
     }
 
-    public void createSocket(int port){
-        this.port = port;
-        try {
-            server = new ServerSocket(this.port);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
-    @Override
-    public void run() {
-        try {
-            socket = server.accept();
-            DataInputStream dis = new DataInputStream(socket.getInputStream());
-            
-            //message = dis.readUTF();
-            dis.close();
-            socket.close();
-            
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void start(){
-        Thread serverThread = new Thread(this);
-        serverThread.start();
+    public void start(int port){
+        socketServer = new Server(port);
+        socketServer.start();
     }
 
     public void setPort(int port) {
         this.port = port;
     }
     
-    public ServerSocket getServerSocket(){
-        return server;
+    public Server getSocketServer(){
+        return socketServer;
     }
 
-    public Socket getSocket(){
-        return socket;
+    public Server getSocket(){
+        return socketServer;
+    }
+
+    public Chat jsonToChat(){
+        Gson gson = new Gson();
+        return gson.fromJson(socketServer.getMessage(), Chat.class);
     }
 
 }

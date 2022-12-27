@@ -8,9 +8,9 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import co.edu.uptc.contract.MainContract;
 import co.edu.uptc.contract.MainContract.Presenter;
-import co.edu.uptc.models.Ball;
-import co.edu.uptc.models.Chat;
-import co.edu.uptc.models.Client;
+import co.edu.uptc.entity.Chat;
+import co.edu.uptc.entity.Client;
+import co.edu.uptc.entity.Ball;
 import co.edu.uptc.presenter.MainPresenter;
 
 public class MainBoard extends JFrame implements MainContract.View {
@@ -21,9 +21,11 @@ public class MainBoard extends JFrame implements MainContract.View {
     private LateralPanel lateralPanel;
     private MainMenu menuBar;
     private static String text;
+    private static MainBoard instance = new MainBoard();
     private MainContract.Presenter presenter;
-    public static final MainBoard instance = new MainBoard();
     private ServerDialog serverDialog;
+    private ClientDialog clientDialog;
+    private Chat chat;
 
     private MainBoard(){
         this.presenter = MainPresenter.getInstance();
@@ -85,13 +87,23 @@ public class MainBoard extends JFrame implements MainContract.View {
         
     }
 
-
     @Override
     public void receivedChat(Chat chat) {
-        MainPresenter.getInstance().receivedChat(chat);
-        
+        this.chat = chat;
     }
 
+    public Chat createChat(){
+        return lateralPanel.getChat();
+    }
+
+    public Chat getChat(){
+        return chat;
+    }  
+    
+    
+    // public Client createClient(String ip, int port, Color color){
+    //     return new Client(new color);
+    // }
 
     @Override
     public void receivedBall(ArrayList<Ball> balls) {
@@ -100,14 +112,27 @@ public class MainBoard extends JFrame implements MainContract.View {
     }
 
     public void startServer(int port){
-        MainPresenter.getInstance().startServer(port);
+        presenter.startServer(port);
     }
 
-    public void startClient(String ip, int port, Color color){
-        presenter.startClient(presenter.createClient(ip, port, color));
+    public void startClient(Client client){
+        presenter.startClient(client);
     }
 
+    void write(String className, String text){
+        MainPresenter.getInstance().write(className, text);
+    }
+
+    public Presenter getPresenter(){
+        return presenter;
+    }
+
+    public ClientDialog getClientDialog(){
+        return clientDialog;
+    }
     // public int getServerPort(){
     //     return Integer.parseInt(serverDialog.getPortTextField());
     // }
+
+
 }

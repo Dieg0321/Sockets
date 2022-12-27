@@ -4,26 +4,29 @@ import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
-
+import co.edu.uptc.contract.MainContract;
 import co.edu.uptc.contract.MainContract.Model;
 import co.edu.uptc.contract.MainContract.Presenter;
+import co.edu.uptc.entity.Chat;
+import co.edu.uptc.entity.Client;
+import co.edu.uptc.presenter.MainPresenter;
+import co.edu.uptc.views.MainBoard;
 
 public class SocketManager implements Model {
 
     private ClientManager clientManager;
-
     private ArrayList<Client> clients;
     private ServerManager serverManager;
 
     public SocketManager() {
+        clients = new ArrayList<>();
         serverManager = new ServerManager();
         clientManager = new ClientManager();
     }
 
     @Override
     public void startServer(int port) {
-        serverManager.createSocket(port);
-        serverManager.start();
+        serverManager.start(port);
     }
 
     @Override
@@ -31,6 +34,10 @@ public class SocketManager implements Model {
         clientManager.start(client);
     }
         
+    public Chat createChat(){
+        return MainPresenter.getInstance().getChat();
+    }
+
     @Override
     public void stopClient() {
         // TODO Auto-generated method stub
@@ -49,11 +56,14 @@ public class SocketManager implements Model {
         
     }
 
-    @Override
-    public void write(String className, String text) {
-        
-        
-    }
+    // @Override
+    // public void write(String className, String text) {
+    //     if(className.equals("Client")){
+    //         clientManager.start(null);
+    //         chatReceived();
+    //         System.out.println("Entra");
+    //     }
+    // }
 
     @Override
     public ArrayList<Client> getClients() {
@@ -62,12 +72,7 @@ public class SocketManager implements Model {
 
     @Override
     public String getIp() {
-        try {
-            return Inet4Address.getLocalHost().toString();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        };
-        return null;
+        return serverManager.getSocketServer().getServer().getInetAddress().getHostAddress();
     }
     
     public ServerManager getServerManager() {
@@ -86,5 +91,18 @@ public class SocketManager implements Model {
         this.clientManager = clientManager;
     }
 
+    // public void chatReceived(){
+    //     MainPresenter.getInstance().getChat(serverManager.jsonToChat());
+    // }
+
+    @Override
+    public void write(String className, String text) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    // public static SocketManager getInstance(){
+    //     return instance;
+    // }
 
 }

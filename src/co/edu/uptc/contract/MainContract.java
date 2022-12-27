@@ -4,9 +4,9 @@ import java.awt.Color;
 import java.io.ObjectInputFilter.Status;
 import java.util.ArrayList;
 
-import co.edu.uptc.models.Ball;
-import co.edu.uptc.models.Chat;
-import co.edu.uptc.models.Client;
+import co.edu.uptc.entity.Ball;
+import co.edu.uptc.entity.Chat;
+import co.edu.uptc.entity.Client;
 public interface MainContract {
 	
 	interface Model{
@@ -29,7 +29,7 @@ public interface MainContract {
 		public void startServer(int port);
 		public void startClient(Client createClient);
 		public void startGame();
-		public Client createClient(String ip, int port, Color color);
+		public void write(String className, String text);
 		
 	}
 	

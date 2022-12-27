@@ -52,7 +52,7 @@ public class MainMenu extends JMenuBar{
                         System.exit(0);;
                         return;
                     default:
-                        System.out.println("NELLL!!!");
+                        
                         break;
                 }
             }

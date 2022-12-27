@@ -1,4 +1,4 @@
-package co.edu.uptc.models;
+package co.edu.uptc.entity;
 
 import java.io.Serializable;
 
@@ -6,19 +6,20 @@ import com.google.gson.Gson;
 
 public class Chat implements Serializable{
 
-    private Client client;
+    private String ip;
     private String message;
 
-    public Chat(){
-        
+    public Chat(String ip, String message){
+        this.ip = ip;
+        this.message = message;
     }
 
-    public Client getClient() {
-        return client;
+    public String getIp() {
+        return ip;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
+    public void setIp(String ip) {
+        this.ip = ip;
     }
 
     public String getMessage() {
@@ -29,7 +30,6 @@ public class Chat implements Serializable{
         this.message = message;
     }
 
-    
     public String chatToJson(){
         Gson gson = new Gson();
         return gson.toJson(this);

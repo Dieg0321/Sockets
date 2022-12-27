@@ -15,16 +15,22 @@ import javax.swing.border.LineBorder;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import co.edu.uptc.entity.Chat;
 import co.edu.uptc.views.myconstants.ButtonConstants;
 import co.edu.uptc.views.myconstants.TitleConstants;
 
 public class LateralPanel extends JPanel{
 
+    private JTextField msgField;
+    private JTextArea msg;
+    private ClientDialog clientDialog;
+    private Chat chat;
+
     public LateralPanel(){
         initLateralPanel();
         createTitles();
         createClientsJList();
-        createChatsTextArea(); 
+        createChatsTextArea();
         createMessageTextField();
         createSendButton();
     }
@@ -65,9 +71,9 @@ public class LateralPanel extends JPanel{
     }
 
     public void createChatsTextArea(){
-        JTextArea msg = new JTextArea();
+        msg = new JTextArea();
         //msg.append();
-        //msg.setEditable(false);
+        msg.setEditable(false);
 
         JScrollPane chatsListScroll = new JScrollPane(msg);
         chatsListScroll.setBounds(25,265, 125,190);
@@ -75,16 +81,20 @@ public class LateralPanel extends JPanel{
     }
 
     public void createMessageTextField(){
-        JTextField msgField = new JTextField();
+        msgField = new JTextField();
         msgField.setBounds(25, 505, 125, 90);
         add(msgField);
+    }
+
+    public void setChat(Chat chat){
+        this.chat = chat;
     }
 
     public void createSendButton(){
         JButton sendBtn = new JButton(ButtonConstants.SEND);
         sendBtn.setFont(TitleConstants.LABELS_FONT);
         sendBtn.setBounds(40, 615, 90, 30);
-        sendBtn.addActionListener(null);
+        sendBtn.addActionListener(createSendButtonListener());
         add(sendBtn);
     }
 
@@ -93,10 +103,34 @@ public class LateralPanel extends JPanel{
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                MainBoard.getInstance().;                
+                MainBoard.getInstance().write(TitleConstants.CLIENT,msgField.getText());
+                chat = MainBoard.getInstance().getChat();
+                msg.append(chat.getIp()+"\n\t"+chat.getMessage());
+
             }
 
         };
     }
+
+    public String getMsgField() {
+        return msgField.getText();
+    }
+
+    public JTextArea getMsg() {
+        return msg;
+    }
+
+    public Chat getChat() {
+        return new Chat(MainBoard.getInstance().getClientDialog().getIp(), getMsgField());
+    }
+
+    public void setMsgField(JTextField msgField) {
+        this.msgField = msgField;
+    }
+
+    public void setMsg(JTextArea msg) {
+        this.msg = msg;
+    }
+
 
 }

@@ -9,6 +9,9 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
+
+import co.edu.uptc.entity.Client;
+import co.edu.uptc.presenter.MainPresenter;
 import co.edu.uptc.views.myconstants.ButtonConstants;
 import co.edu.uptc.views.myconstants.TitleConstants;
 
@@ -31,6 +34,7 @@ public class ClientDialog extends JDialog {
         setSize(300,250);
         setLocationRelativeTo(getParent());
         setVisible(true);
+        setResizable(false);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
@@ -104,12 +108,21 @@ public class ClientDialog extends JDialog {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-              MainBoard.getInstance().startClient(ipTextField.getText(), getPort(), color);                
+                MainBoard.getInstance().startClient(MainPresenter.getInstance().createClient(ipTextField.getText(), getPort(), color));
+              
             }
         };
     }
 
+    public String getIp(){
+        return ipTextField.getText();
+    }
+
     public int getPort(){
         return Integer.parseInt(portTextField.getText());
+    }
+
+    public Color getColor(){
+        return color;
     }
 }

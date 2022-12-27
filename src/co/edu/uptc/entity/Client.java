@@ -1,21 +1,21 @@
-package co.edu.uptc.models;
+package co.edu.uptc.entity;
 
 import java.awt.Color;
 import java.io.Serializable;
+import java.net.Socket;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import co.edu.uptc.models.ColorSerializer;
 public class Client implements Serializable{
 
-    private String ip;
-    private int port;
+    private Socket socket;
     private Color color;
 
-
-    
-    public Client(String ip, int port, Color color) {
+    public Client(Socket socket, Color color) {
         this.color = color;
-        this.ip = ip;
-        this.port = port;
+        this.socket = socket;
     }
 
 
@@ -24,12 +24,8 @@ public class Client implements Serializable{
     }
 
 
-    public String getIp() {
-        return ip;
-    }
-
-    public void setIp(String ip) {
-        this.ip = ip;
+    public Socket getSocket(){
+        return socket;
     }
 
     public Color getColor() {
@@ -38,14 +34,6 @@ public class Client implements Serializable{
 
     public void setColor(Color color) {
         this.color = color;
-    }
-
-    public int getPort() {
-        return port;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
     }
 
     public String toJson(){

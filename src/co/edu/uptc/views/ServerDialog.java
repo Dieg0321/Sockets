@@ -19,11 +19,11 @@ public class ServerDialog extends JDialog {
     private JTextField portTextField;
 
     public ServerDialog(){
-        ip = "192.168.1.68";
+        ip = "10.4.74.23";
         
         initComponent();
         createLabels();
-        createTextField();
+        createTextField(); 
         createSendButton();
         createCancelButton();
     }
@@ -31,6 +31,7 @@ public class ServerDialog extends JDialog {
     public void initComponent(){
         setSize(300,200);
         setVisible(true);
+        setResizable(false);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(getParent());
     }
@@ -69,6 +70,7 @@ public class ServerDialog extends JDialog {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                
                 MainBoard.getInstance().startServer(getPort());
                 dispose();
             }            
